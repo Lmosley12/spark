@@ -68,7 +68,7 @@ def launch_gateway(conf=None, popen_kwargs=None):
                 "--conf spark.ui.enabled=false",
                 submit_args
             ])
-        command = command + shlex.split(submit_args)
+        command = command + submit_args.split(" ")
 
         # Create a temporary directory where the gateway server should write the connection
         # information.
