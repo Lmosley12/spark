@@ -122,21 +122,13 @@ try:
     if (in_spark):
         # Construct the symlink farm - this is necessary since we can't refer to the path above the
         # package root and we need to copy the jars and scripts which are up above the python root.
-        if _supports_symlinks():
-            os.symlink(JARS_PATH, JARS_TARGET)
-            os.symlink(SCRIPTS_PATH, SCRIPTS_TARGET)
-            os.symlink(USER_SCRIPTS_PATH, USER_SCRIPTS_TARGET)
-            os.symlink(EXAMPLES_PATH, EXAMPLES_TARGET)
-            os.symlink(DATA_PATH, DATA_TARGET)
-            os.symlink(LICENSES_PATH, LICENSES_TARGET)
-        else:
-            # For windows fall back to the slower copytree
-            copytree(JARS_PATH, JARS_TARGET)
-            copytree(SCRIPTS_PATH, SCRIPTS_TARGET)
-            copytree(USER_SCRIPTS_PATH, USER_SCRIPTS_TARGET)
-            copytree(EXAMPLES_PATH, EXAMPLES_TARGET)
-            copytree(DATA_PATH, DATA_TARGET)
-            copytree(LICENSES_PATH, LICENSES_TARGET)
+        # For windows fall back to the slower copytree
+        copytree(JARS_PATH, JARS_TARGET)
+        copytree(SCRIPTS_PATH, SCRIPTS_TARGET)
+        copytree(USER_SCRIPTS_PATH, USER_SCRIPTS_TARGET)
+        copytree(EXAMPLES_PATH, EXAMPLES_TARGET)
+        copytree(DATA_PATH, DATA_TARGET)
+        copytree(LICENSES_PATH, LICENSES_TARGET)
     else:
         # If we are not inside of SPARK_HOME verify we have the required symlink farm
         if not os.path.exists(JARS_TARGET):
@@ -234,19 +226,11 @@ finally:
     # We only cleanup the symlink farm if we were in Spark, otherwise we are installing rather than
     # packaging.
     if (in_spark):
-        # Depending on cleaning up the symlink farm or copied version
-        if _supports_symlinks():
-            os.remove(os.path.join(TEMP_PATH, "jars"))
-            os.remove(os.path.join(TEMP_PATH, "bin"))
-            os.remove(os.path.join(TEMP_PATH, "sbin"))
-            os.remove(os.path.join(TEMP_PATH, "examples"))
-            os.remove(os.path.join(TEMP_PATH, "data"))
-            os.remove(os.path.join(TEMP_PATH, "licenses"))
-        else:
-            rmtree(os.path.join(TEMP_PATH, "jars"))
-            rmtree(os.path.join(TEMP_PATH, "bin"))
-            rmtree(os.path.join(TEMP_PATH, "sbin"))
-            rmtree(os.path.join(TEMP_PATH, "examples"))
-            rmtree(os.path.join(TEMP_PATH, "data"))
-            rmtree(os.path.join(TEMP_PATH, "licenses"))
-        os.rmdir(TEMP_PATH)
+        #  Depending on cleaning up the symlink farm or copied version
+        rmtree(os.path.join(TEMP_PATH, "jars"))
+        rmtree(os.path.join(TEMP_PATH, "bin"))
+        rmtree(os.path.join(TEMP_PATH, "sbin"))
+        rmtree(os.path.join(TEMP_PATH, "examples"))
+        rmtree(os.path.join(TEMP_PATH, "data"))
+        rmtree(os.path.join(TEMP_PATH, "licenses"))
+    os.rmdir(TEMP_PATH)
